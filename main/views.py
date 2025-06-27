@@ -7,16 +7,15 @@ import cv2
 import os
 from django.conf import settings
 
+from keras.models import load_model  # Import lazily to avoid startup overhead
+MODEL_PATH = os.path.join(settings.BASE_DIR, 'umairpy_legacy.h5')
+model = load_model(MODEL_PATH)
 threshold = 0.6517  # Confidence threshold
 
 class PredictViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['post'], url_path='image')
     def predict_image(self, request):
-        from keras.models import load_model  # Import lazily to avoid startup overhead
-        MODEL_PATH = os.path.join(settings.BASE_DIR, 'umairpy_legacy.h5')
-        model = load_model(MODEL_PATH)
-
         serializer = ImageUploadSerializer(data=request.data)
         if serializer.is_valid():
             image_file = serializer.validated_data['image']
