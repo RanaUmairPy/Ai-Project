@@ -4,17 +4,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import ImageUploadSerializer
-from tensorflow.keras.models import load_model
+
 from django.conf import settings
 import os
 
 # Load model once globally
-MODEL_PATH = os.path.join(settings.BASE_DIR, 'umairpy_legacy.h5')
-model = load_model(MODEL_PATH)
+
 threshold = 0.6517
 
 class PredictView(APIView):
     def post(self, request, *args, **kwargs):
+        from tensorflow.keras.models import load_model
+        MODEL_PATH = os.path.join(settings.BASE_DIR, 'umairpy_legacy.h5')
+        model = load_model(MODEL_PATH)
         serializer = ImageUploadSerializer(data=request.data)
         if serializer.is_valid():
             image_file = serializer.validated_data['image']
