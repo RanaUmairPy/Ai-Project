@@ -9,8 +9,8 @@ from django.conf import settings
 import os
 
 # Load model once globally
-#MODEL_PATH = os.path.join(settings.BASE_DIR, 'your_model.h5')
-model = load_model("D:\Ai\umairpy.h5")
+MODEL_PATH = os.path.join(settings.BASE_DIR, 'umairpy_legacy.h5')
+model = load_model(MODEL_PATH)
 threshold = 0.6517
 
 class PredictView(APIView):
