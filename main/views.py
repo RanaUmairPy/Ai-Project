@@ -13,7 +13,7 @@ class PredictViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['post'], url_path='image')
     def predict_image(self, request):
-        from keras.saving.legacy import load_model  # Import lazily to avoid startup overhead
+        from keras.models import load_model  # Import lazily to avoid startup overhead
         MODEL_PATH = os.path.join(settings.BASE_DIR, 'umairpy_legacy.h5')
         model = load_model(MODEL_PATH)
 
